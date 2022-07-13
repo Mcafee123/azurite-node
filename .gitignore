@@ -1,0 +1,4 @@
+node_modules
+__azurite*.json
+dist
+testrun

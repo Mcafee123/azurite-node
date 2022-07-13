@@ -1,0 +1,31 @@
+{
+  "name": "azurite-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/App.ts",
+  "scripts": {
+    "azurite": "azurite --silent --skipApiVersionCheck --loose",
+    "test": "concurrently \"tsc -p ./tsconfig.test.json\" && concurrently \"npm:azurite\" \"mocha testrun/**/*.spec.js --delay=1000\"",
+    "test-debug": "tsc -p ./tsconfig.test.json && mocha testrun/**/*.spec.js --delay=1000",
+    "start": "tsc && concurrently \"npm:azurite\" \"node --inspect ./dist/index.js\""
+  },
+  "author": "martin@affolter.net",
+  "license": "ISC",
+  "devDependencies": {
+    "@azure/data-tables": "^13.1.2",
+    "@azure/storage-blob": "^12.11.0",
+    "@types/chai": "^4.3.1",
+    "@types/chai-http": "^4.2.0",
+    "@types/express": "^4.17.13",
+    "@types/mocha": "^9.1.1",
+    "@types/supertest": "^2.0.12",
+    "chai": "^4.3.6",
+    "concurrently": "^7.2.2",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
+    "express-async-handler": "^1.2.0",
+    "mocha": "^10.0.0",
+    "supertest": "^6.2.4",
+    "typescript": "^4.7.4"
+  }
+}
