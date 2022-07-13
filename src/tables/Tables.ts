@@ -4,16 +4,21 @@ import config from '../config'
 
 class Tables {
 
+  private connstring
+  constructor() {
+    this.connstring = process.env.CONNSTRING || config.connstring
+  }
+
   private createTableServiceClient(): TableServiceClient {
     const tableClient = TableServiceClient.fromConnectionString(
-      config.connstring
+      this.connstring
     );
     return tableClient
   }
 
   private createTableClient(name: string): TableClient {
     const svc = TableClient.fromConnectionString(
-      config.connstring,
+      this.connstring,
       name
     )
     return svc
