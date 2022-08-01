@@ -2,3 +2,4 @@ node_modules
 __azurite*.json
 dist
 testrun
+docker/azurite-node
