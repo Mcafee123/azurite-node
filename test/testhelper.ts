@@ -3,7 +3,7 @@ import request, { Response } from 'supertest'
 
 type callback = (res: Response) => void
 
-const debug = false ? 'debug=ok' : ''
+const debug = true ? 'debug=ok' : ''
 
 // Tables
 
