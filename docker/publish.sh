@@ -5,7 +5,16 @@
 . _config.sh
 . _build.sh
 
-cat __dockerhub_token.sh | docker login --username $githubuser --password-stdin
+if test -f "$tokenfile"; then
+  echo "token available"
+else
+  echo "Tokenfile: $tokenfile is missing"
+  exit 99
+fi
+
+mkdir $local_dist_dir
+
+cat $tokenfile | docker login --username $githubuser --password-stdin
 
 docker tag $containername:$tagname $githubuser/$repository:$tagname
 
