@@ -12,8 +12,6 @@ else
   exit 99
 fi
 
-mkdir $local_dist_dir
-
 cat $tokenfile | docker login --username $githubuser --password-stdin
 
 docker tag $containername:$tagname $githubuser/$repository:$tagname
