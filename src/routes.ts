@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import tables from './tables/Tables'
+import blobs from './blobs/Blobs'
 
 const ah = asyncHandler
 
@@ -18,8 +19,9 @@ const mountRoutes = (): Router => {
   router.get('/table/:name/:pk/:rk', ah(tables.get))
   router.put('/table/:name', ah(tables.save))
   router.delete('/table/:name/:pk/:rk', ah(tables.deleteEntity))
-  
-  // router.get('/blobs', require('./blobs/containers'))
+  // blobs
+  router.put('/blobs/:containername/:file', ah(blobs.uploadText))
+
   return router
 }
 
