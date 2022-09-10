@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express'
 import HttpException from './exceptions/HttpException'
 import mountRoutes from './routes'
+import cors from 'cors'
 
 class App {
   public app
@@ -15,6 +16,7 @@ class App {
 
   constructor () {
     this.app = express()
+    this.app.use(cors({}))
     this.app.use(express.json({ strict: false})) // before route handlers!
     this.app.use('/', mountRoutes())
     this.app.use(this.errorHandler);
