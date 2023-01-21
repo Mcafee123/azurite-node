@@ -20,7 +20,9 @@ const mountRoutes = (): Router => {
   router.put('/table/:name', ah(tables.save))
   router.delete('/table/:name/:pk/:rk', ah(tables.deleteEntity))
   // blobs
+  router.get('/blobs/:containername', ah(blobs.listBlobs))
   router.put('/blobs/:containername/:file', ah(blobs.uploadText))
+  router.post('/blobs/:containername', ah(blobs.upload))
 
   return router
 }
