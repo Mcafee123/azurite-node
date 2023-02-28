@@ -38,39 +38,32 @@ class Blobs {
   public upload = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const containername = req.params.containername
-      const form = new formidable.IncomingForm()
-      form.parse(req, async (err, fields, files) => {
-        if (err) {
-          console.log(err)
-          next(err)
-          return
-        }
+      const fieldsAndFiles = await this.readForm(req)
+      const fields = fieldsAndFiles[0]
+      const files = fieldsAndFiles[1]
 
-        const blobServiceClient = BlobServiceClient.fromConnectionString(this.connstring)
-        const containerClient = blobServiceClient.getContainerClient(containername)
-
-        // create container if not exists
-        const createContainerResponse = await containerClient.createIfNotExists()
-
-        var i=1
-        for (const f of Object.keys(files)) {
-          const blobName = fields[`filepath_${i}`].toString()
-          // Get a block blob client
-          const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-          console.log('\nUploading to Azure storage as blob:\n\t', blobName);
-          // Upload data to the blob
-          const tempFilePath = (files[f] as any).filepath
-          const mimeType = (files[f] as any).mimetype
-          const uploadBlobResponse = await blockBlobClient.uploadFile(tempFilePath, {
-            blobHTTPHeaders: {
-                blobContentType: mimeType,
-            },
+      const blobServiceClient = BlobServiceClient.fromConnectionString(this.connstring)
+      const containerClient = blobServiceClient.getContainerClient(containername)
+      // create container if not exists
+      const createContainerResponse = await containerClient.createIfNotExists()
+      var i = 1
+      for (const f of Object.keys(files)) {
+        const blobName = fields[`filepath_${i}`].toString()
+        // Get a block blob client
+        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+        console.log('\nUploading to Azure storage as blob:\n\t', blobName);
+        // Upload data to the blob
+        const tempFilePath = (files[f] as any).filepath
+        const mimeType = (files[f] as any).mimetype
+        const uploadBlobResponse = await blockBlobClient.uploadFile(tempFilePath, {
+          blobHTTPHeaders: {
+              blobContentType: mimeType,
+          },
         });
-          console.log("Blob was uploaded successfully. requestId: ", uploadBlobResponse.requestId);
-          i++
-        }
-        res.json({ fields, files })
-      });
+        console.log("Blob was uploaded successfully. requestId: ", uploadBlobResponse.requestId);
+        i++
+      }
+      res.json({ fields, files })
     }
     catch (e) {
       console.log(e)
@@ -112,6 +105,19 @@ class Blobs {
     }
   }
 
+  private readForm = async (req: Request) => {
+    return new Promise<[fields: formidable.Fields, files: formidable.Files]>((resolve, reject) => {
+      const form = new formidable.IncomingForm()
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          console.log(err)
+          reject(err)
+          return
+        }
+        resolve([fields, files])
+      })
+    })
+  }
 }
 
 export default new Blobs()

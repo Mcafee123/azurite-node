@@ -5,7 +5,7 @@
 ### Tables
 
 * GET: /tables -> Array
-* PUT: /tables/:name -> { ok: name }
+* PUT: nothing -> /tables/:name -> { ok: name }
 * DELETE: /tables/:name -> { deleted: name }
 
 ### Entities

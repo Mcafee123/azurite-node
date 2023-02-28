@@ -1,6 +1,6 @@
 {
   "name": "azurite-node",
-  "version": "0.6.2",
+  "version": "0.6.8",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
