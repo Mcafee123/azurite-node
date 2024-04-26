@@ -2,7 +2,7 @@
 
 # author: martin@affolter.net
 
-containername="azurite-node"
+. _config.sh
 
 # stop and remove container
 docker container stop $containername

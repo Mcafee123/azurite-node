@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import tables from './tables/Tables'
-import blobs from './blobs/Blobs'
+import blobs from './blobs/blobs'
 
 const ah = asyncHandler
 
